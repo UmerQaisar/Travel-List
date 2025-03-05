@@ -21,10 +21,16 @@ export default function App() {
         }));
     }
 
+    function handleClearList() {
+        const confirmed = window.confirm('Are you sure?');
+
+        if(confirmed) setItems([])
+    }
+
     return <div>
         <Logo/>
         <Form onAddItem={handleAddItem}/>
-        <PackingList items={items} onRemoveItem={handleRemoveItem} onToggleItem={handleToggleItem} />
+        <PackingList items={items} onRemoveItem={handleRemoveItem} onToggleItem={handleToggleItem} onClearList={handleClearList}/>
         <Stats items={items}/>
     </div>
 }
@@ -64,13 +70,17 @@ function Form({onAddItem}) {
     )
 }
 
-function PackingList({items, onRemoveItem, onToggleItem}) {
+function PackingList({items, onRemoveItem, onToggleItem, onClearList}) {
     return (
-        <div className="list">
-            <ul>
-                {items.map(item => (<Item item={item} onRemoveItem={onRemoveItem} onToggleItem={onToggleItem} key={item.id}/>))}
-            </ul>
-        </div>
+            <div className="list">
+                <ul>
+                    {items.map(item => (
+                        <Item item={item} onRemoveItem={onRemoveItem} onToggleItem={onToggleItem} key={item.id}/>))}
+                </ul>
+                <div className='actions'>
+                    <button onClick={onClearList}>Clear Items</button>
+                </div>
+            </div>
     )
 }
 
